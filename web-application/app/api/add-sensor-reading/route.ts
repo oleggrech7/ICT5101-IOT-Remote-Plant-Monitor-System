@@ -1,5 +1,5 @@
 import { createdResponse, errorResponse } from "@/app/utils/responses";
-import prisma from "@/lib/prisma";
+// import prisma from "@/lib/prisma";
 
 interface RequestBody {
   reading: string;
