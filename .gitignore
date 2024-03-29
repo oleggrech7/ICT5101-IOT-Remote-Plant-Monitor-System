@@ -1,0 +1,11 @@
+# Next.js ignore files
+web-application/node_modules
+web-application/.next
+web-application/out
+web-application/target
+web-application/dist
+web-application/logs
+web-application/.cache
+web-application/.vscode
+web-application/.DS_Store
+web-application/yarn-error.log
