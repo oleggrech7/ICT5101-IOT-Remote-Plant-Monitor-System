@@ -1,6 +1,8 @@
 # Next.js ignore files
 web-application/node_modules
 web-application/.next
+web-application/.vercel
+web-application/.env
 web-application/out
 web-application/target
 web-application/dist
