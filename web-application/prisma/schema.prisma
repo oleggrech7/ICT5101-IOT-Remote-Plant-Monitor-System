@@ -12,6 +12,6 @@ datasource db {
 
 model TestingMoistureSensor {
     id            Int      @id @default(autoincrement())
-    sensorReading Float
-    createdAt     DateTime @default(now()) @map(name: "created_at")
+    sensorReading Float    @map(name: "sensor_reading")
+    createdAt     DateTime @default(dbgenerated("NOW() + interval '1 hour'")) @map(name: "created_at")
 }
