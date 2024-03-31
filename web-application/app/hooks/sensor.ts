@@ -9,7 +9,12 @@ export function useSensor() {
   const getSensorReadings = async () => {
     await GET("/api/get-sensor-readings").then(async (response: Response) => {
       const { data } = (await response.json()) as SensorReadingsResponse;
-      setSensorReadings(data);
+      const convertedData = data.map((reading) => ({
+        id: reading.id,
+        sensorReading: reading.sensorReading,
+        createdAt: new Date(reading.createdAt).toLocaleString(),
+      }));
+      setSensorReadings(convertedData);
     });
   };
 
