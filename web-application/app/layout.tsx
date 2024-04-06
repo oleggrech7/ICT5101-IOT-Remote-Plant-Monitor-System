@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { ThemeProvider } from "next-themes";
 
 const interFontSans = Inter({
   subsets: ["latin"],
@@ -28,9 +27,7 @@ export default function RootLayout({
           interFontSans.variable
         )}
       >
-        <ThemeProvider attribute="class" defaultTheme="dark">
           {children}
-        </ThemeProvider>
       </body>
     </html>
   );
