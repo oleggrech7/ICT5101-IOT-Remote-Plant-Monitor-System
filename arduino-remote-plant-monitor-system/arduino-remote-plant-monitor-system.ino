@@ -1,11 +1,18 @@
 #include <WiFiS3.h>
+#include <ArduinoHttpClient.h>
 
 #include "arduino_secrets.h"
 
-
 char ssid[] = SECRET_SSID;
 char pass[] = SECRET_PASS;
+
+WiFiClient wifiClient;
 int status = WL_IDLE_STATUS;
+
+int HTTP_PORT = 443;
+char HOST_NAME[] = SECRET_API_BASE_URL;
+
+HttpClient httpClient = HttpClient(wifiClient, HOST_NAME, HTTP_PORT);
 
 void setup() {
   //Initialize serial and wait for port to open:
@@ -21,10 +28,10 @@ void setup() {
     while (true);
   }
 
-  String fv = WiFi.firmwareVersion();
-  if (fv < WIFI_FIRMWARE_LATEST_VERSION) {
-    Serial.println("Please upgrade the firmware");
-  }
+  // String fv = WiFi.firmwareVersion();
+  // if (fv < WIFI_FIRMWARE_LATEST_VERSION) {
+  //   Serial.println("Please upgrade the firmware");
+  // }
 
   // attempt to connect to WiFi network:
   while (status != WL_CONNECTED) {
@@ -44,7 +51,33 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
+  if(WiFi.status() == WL_CONNECTED) {
+    String addSensorReadingApi = "/api/add-sensor-reading";
+    String contentType = "application/json";
 
+    Serial.println("Starting Request");
+    
+    // // Uncomment once sensor is setup
+    // // float sensorValue = analogRead(A0);
+    // // String postData = "{\"reading\":\""; 
+    // // postData += sensorValue;
+    // // postData += "\"}";
+
+    // //TODO: Add LED Code
+
+    String postData = "{\"reading\": 12 }";
+
+    httpClient.post(addSensorReadingApi, contentType, postData);
+
+    // read the status code and body of the response
+    int statusCode = httpClient.responseStatusCode();
+    String response = httpClient.responseBody();
+
+    Serial.println("Status code: " + String(statusCode));
+    Serial.println("Response: " + response);
+  }
+
+  delay(100000000);
 }
 
 void printWifiData() {
