@@ -11,3 +11,4 @@ web-application/.cache
 web-application/.vscode
 web-application/.DS_Store
 web-application/yarn-error.log
+arduino-remote-plant-monitor-system/arduino_secrets.h
