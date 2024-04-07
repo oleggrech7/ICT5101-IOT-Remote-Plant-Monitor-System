@@ -1,0 +1,12 @@
+{
+  "redirects": [
+    {
+      "source": "/add-sensor-reading",
+      "destination": "/api/add-sensor-reading"
+    },
+    {
+      "source": "/get-sensor-readings",
+      "destination": "/api/get-sensor-readings"
+    }
+  ]
+}
