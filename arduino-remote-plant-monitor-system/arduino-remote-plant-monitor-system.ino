@@ -1,4 +1,5 @@
 #include <WiFiS3.h>
+#include <WiFiSSLClient.h>
 #include <ArduinoHttpClient.h>
 
 #include "arduino_secrets.h"
@@ -6,10 +7,10 @@
 char ssid[] = SECRET_SSID;
 char pass[] = SECRET_PASS;
 
-WiFiClient wifiClient;
+WiFiSSLClient wifiClient;
 int status = WL_IDLE_STATUS;
 
-int HTTP_PORT = 3000;
+int HTTP_PORT = 443;
 char HOST_NAME[] = SECRET_API_BASE_URL;
 
 HttpClient httpClient = HttpClient(wifiClient, HOST_NAME, HTTP_PORT);
