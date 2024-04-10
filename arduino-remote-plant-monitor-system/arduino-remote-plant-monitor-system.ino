@@ -9,7 +9,7 @@ char pass[] = SECRET_PASS;
 WiFiClient wifiClient;
 int status = WL_IDLE_STATUS;
 
-int HTTP_PORT = 443;
+int HTTP_PORT = 3000;
 char HOST_NAME[] = SECRET_API_BASE_URL;
 
 HttpClient httpClient = HttpClient(wifiClient, HOST_NAME, HTTP_PORT);
@@ -18,7 +18,7 @@ void setup() {
   //Initialize serial and wait for port to open:
   Serial.begin(9600);
   while (!Serial) {
-    ; // wait for serial port to connect. Needed for native USB port only
+    ;  // wait for serial port to connect. Needed for native USB port only
   }
 
   // check for the WiFi module:
@@ -51,19 +51,19 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  if(WiFi.status() == WL_CONNECTED) {
+  if (WiFi.status() == WL_CONNECTED) {
     String addSensorReadingApi = "/api/add-sensor-reading";
     String contentType = "application/json";
 
     Serial.println("Starting Request");
-    
-    // // Uncomment once sensor is setup
-    // // float sensorValue = analogRead(A0);
-    // // String postData = "{\"reading\":\""; 
-    // // postData += sensorValue;
-    // // postData += "\"}";
 
-    // //TODO: Add LED Code
+    // Uncomment once sensor is setup
+    // float sensorValue = analogRead(A0);
+    // String postData = "{\"reading\":\"";
+    // postData += sensorValue;
+    // postData += "\"}";
+
+    //TODO: Add LED Code
 
     String postData = "{\"reading\": 12 }";
 
@@ -84,6 +84,6 @@ void printWifiData() {
   // print your board's IP address:
   IPAddress ip = WiFi.localIP();
   Serial.print("IP Address: ");
-  
+
   Serial.println(ip);
 }
