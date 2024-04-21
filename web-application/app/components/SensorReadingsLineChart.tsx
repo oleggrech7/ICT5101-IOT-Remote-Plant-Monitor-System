@@ -1,15 +1,16 @@
-import React, { use, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  LineChart,
+  CartesianGrid,
+  Legend,
   Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
 } from "recharts";
 import { LocalSensorReadingData } from "../interfaces/common/sensorReading";
+import { convertDateToLocale } from "../utils/date";
 
 interface SensorReadingsLineChartProps {
   data: LocalSensorReadingData[];
@@ -23,17 +24,50 @@ console.error = (...args: any) => {
   error(...args);
 };
 
+const CustomTooltip = ({
+  active,
+  payload,
+  label,
+}: {
+  active: boolean;
+  payload: Array<any>;
+  label: string;
+}) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-black p-2">
+        <p>{`Date: ${label}`}</p>
+        <p>{`Sensor Reading:${payload[0].value}`}</p>
+      </div>
+    );
+  }
+};
+
 export const SensorReadingsLineChart: React.FC<
   SensorReadingsLineChartProps
 > = ({ data, containerHeight = 800, date }) => {
+  const [chartData, setChartData] = useState(data);
+
   useEffect(() => {
-    console.log("date in chart", date);
+    if (date) {
+      const localeData = convertDateToLocale(date);
+      const filteredData = data.filter(
+        (reading) => reading.date === localeData
+      );
+      setChartData(filteredData);
+      return;
+    }
+    setChartData(data);
   }, [date]);
+
+  useEffect(() => {
+    setChartData(data);
+  }, [data]);
 
   return (
     <ResponsiveContainer height={containerHeight}>
       <LineChart
-        data={data}
+        data={chartData}
         margin={{
           top: 5,
           right: 30,
@@ -42,9 +76,11 @@ export const SensorReadingsLineChart: React.FC<
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="date" />
+        <XAxis dataKey={date ? "time" : "date"} />
         <YAxis />
-        <Tooltip />
+        <Tooltip
+          content={<CustomTooltip active={false} payload={[]} label={""} />}
+        />
         <Legend />
         <Line
           type="monotone"

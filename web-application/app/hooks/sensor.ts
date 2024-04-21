@@ -5,6 +5,7 @@ import {
 } from "@/app/interfaces/common/sensorReading";
 import { GET } from "@/app/utils/api";
 import { SensorReadingsResponse } from "@/app/interfaces/responses/sensorReadingsResponse";
+import { convertDateToLocale } from "../utils/date";
 
 export function useSensor() {
   const [sensorReadings, setSensorReadings] = useState<
@@ -22,11 +23,7 @@ export function useSensor() {
             ({
               id: reading.id,
               sensorReading: reading.sensorReading,
-              date: new Date(reading.createdAt).toLocaleDateString("en-GB", {
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric",
-              }),
+              date: convertDateToLocale(reading.createdAt),
               time: new Date(reading.createdAt).toLocaleTimeString(),
             } as LocalSensorReadingData)
         );
