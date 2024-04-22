@@ -3,3 +3,10 @@ export interface SensorReadingData {
   sensorReading: number;
   createdAt: string;
 }
+
+export interface LocalSensorReadingData {
+  id: number;
+  sensorReading: number;
+  date: string;
+  time: string;
+}
