@@ -7,7 +7,7 @@ export interface ISVGProps extends React.SVGProps<SVGSVGElement> {
 
 export const Spinner = ({ size = 24, className, ...props }: ISVGProps) => {
   return (
-    <div className="w-full flex flex-row align-middle items-center">
+    <div className="flex align-middle items-center">
       <svg
         width={size}
         height={size}

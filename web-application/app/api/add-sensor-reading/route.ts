@@ -23,6 +23,13 @@ export async function POST(request: Request) {
       },
     });
 
+    // FOR PRODUCTION
+    // await prisma.moistureSensorReadings.create({
+    //   data: {
+    //     sensorReading: reading,
+    //   },
+    // });
+
     return createdResponse({ message: "Reading added successfully!" });
   } catch (error) {
     return errorResponse({ message: "An unexpected error occurred" });

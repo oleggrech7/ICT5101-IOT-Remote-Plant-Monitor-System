@@ -3,8 +3,9 @@ import { SensorReadingsLineChart } from "./components/SensorReadingsLineChart";
 import { Spinner } from "./components/spinner";
 import { DatePicker } from "./components/DatePicker";
 import { useSensor } from "./hooks/sensor";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getDateTimestamps } from "./utils/date";
+import { ErrorAlert } from "./components/ErrorAlert";
 
 const localSensorReadings = [
   {
@@ -75,24 +76,46 @@ const localSensorReadings = [
   },
 ];
 
+const latestSensorReading = {
+  id: 11,
+  sensorReading: 500,
+  date: "10/04/2024",
+  time: "19:48:57",
+};
+
 export default function Home() {
-  // const { sensorReadings, loading } = useSensor();
+  // const { sensorReadings, loading, latestSensorReading } = useSensor();
   const [date, setDate] = useState<Date>();
-  
+  const isMoistureLow = useMemo(() => {
+    return latestSensorReading.sensorReading < 200;
+  }, [latestSensorReading]);
 
   const loading = false; // To remove once the API is integrated
 
   return (
     <main className="flex min-h-screen flex-col items-center p-6">
-      <h1 className="text-center text-primary">
+      <h1 className="text-center text-primary font-extrabold">
         ICT5101 - Internet of Things: Remote Plant Monitor System
       </h1>
       <section className="w-full pt-4">
         {loading ? (
-          <Spinner />
+          <section className="flex flex-col items-center">
+            <Spinner />
+          </section>
         ) : (
-          <section className="flex flex-col">
-            <div className="flex flex-row items-end justify-end pb-5">
+          <section className="flex flex-col align-middle">
+            <div
+              className={`flex flex-row pb-5 items-center ${
+                isMoistureLow ? "justify-between" : "justify-end"
+              }`}
+            >
+              {/* This value is subject to change */}
+              {isMoistureLow && (
+                <ErrorAlert
+                  title="Warning"
+                  message="Latest reading has indicated that the moisture level is low"
+                />
+              )}
               <DatePicker
                 date={date}
                 setDate={setDate}
