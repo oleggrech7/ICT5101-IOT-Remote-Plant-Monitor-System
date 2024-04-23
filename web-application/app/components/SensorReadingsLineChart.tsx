@@ -84,6 +84,7 @@ export const SensorReadingsLineChart: React.FC<
         <Legend />
         <Line
           type="monotone"
+          name="Sensor Reading"
           dataKey="sensorReading"
           stroke="#008184"
           activeDot={{ r: 8 }}

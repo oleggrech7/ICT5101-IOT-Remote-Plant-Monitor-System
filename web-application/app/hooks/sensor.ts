@@ -11,6 +11,9 @@ export function useSensor() {
   const [sensorReadings, setSensorReadings] = useState<
     LocalSensorReadingData[]
   >([]);
+  const [latestSensorReading, setLatestSensorReading] = useState<
+    LocalSensorReadingData | undefined
+  >(undefined);
   const [loading, setLoading] = useState(false);
 
   const getSensorReadings = async () => {
@@ -18,6 +21,12 @@ export function useSensor() {
     await GET("/api/get-sensor-readings")
       .then(async (response: Response) => {
         const { data } = (await response.json()) as SensorReadingsResponse;
+        const sortedData = data.sort(
+          (a, b) =>
+            (new Date(b.createdAt as any) as any) -
+            (new Date(a.createdAt as any) as any)
+        );
+
         const convertedData = data.map(
           (reading) =>
             ({
@@ -28,6 +37,9 @@ export function useSensor() {
             } as LocalSensorReadingData)
         );
         setSensorReadings(convertedData);
+        setLatestSensorReading(
+          convertedData.find((value) => value.id === sortedData[0].id)
+        );
       })
       .finally(() => {
         setLoading(false);
@@ -40,6 +52,7 @@ export function useSensor() {
 
   return {
     sensorReadings,
+    latestSensorReading,
     loading,
   };
 }

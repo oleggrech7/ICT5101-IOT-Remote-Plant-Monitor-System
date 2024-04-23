@@ -15,3 +15,8 @@ model TestingMoistureSensor {
     sensorReading Float    @map(name: "sensor_reading")
     createdAt     DateTime @default(dbgenerated("NOW() + interval '1 hour'")) @map(name: "created_at")
 }
+model MoistureSensorReadings {
+    id            Int      @id @default(autoincrement())
+    sensorReading Float    @map(name: "sensor_reading")
+    createdAt     DateTime @default(dbgenerated("NOW() + interval '1 hour'")) @map(name: "created_at")
+}
