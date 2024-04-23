@@ -78,7 +78,7 @@ const localSensorReadings = [
 
 const latestSensorReading = {
   id: 11,
-  sensorReading: 500,
+  sensorReading: 100,
   date: "10/04/2024",
   time: "19:48:57",
 };
@@ -86,6 +86,8 @@ const latestSensorReading = {
 export default function Home() {
   // const { sensorReadings, loading, latestSensorReading } = useSensor();
   const [date, setDate] = useState<Date>();
+  const [hidden, setHidden] = useState(false);
+
   const isMoistureLow = useMemo(() => {
     return latestSensorReading.sensorReading < 200;
   }, [latestSensorReading]);
@@ -106,7 +108,7 @@ export default function Home() {
           <section className="flex flex-col align-middle">
             <div
               className={`flex flex-row pb-5 items-center ${
-                isMoistureLow ? "justify-between" : "justify-end"
+                !hidden ? "justify-between" : "justify-end"
               }`}
             >
               {/* This value is subject to change */}
@@ -114,6 +116,8 @@ export default function Home() {
                 <ErrorAlert
                   title="Warning"
                   message="Latest reading has indicated that the moisture level is low"
+                  hidden={hidden}
+                  setHidden={setHidden}
                 />
               )}
               <DatePicker
