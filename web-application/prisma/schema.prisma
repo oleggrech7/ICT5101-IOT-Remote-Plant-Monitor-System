@@ -1,0 +1,17 @@
+// schema.prisma
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider  = "postgresql"
+    url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+    directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+model MoistureSensorReadings {
+    id            Int      @id @default(autoincrement())
+    sensorReading Float    @map(name: "sensor_reading")
+    createdAt     DateTime @default(dbgenerated("NOW() + interval '1 hour'")) @map(name: "created_at")
+}
