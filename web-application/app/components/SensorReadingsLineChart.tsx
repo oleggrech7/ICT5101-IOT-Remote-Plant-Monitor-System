@@ -43,6 +43,25 @@ const CustomTooltip = ({
   }
 };
 
+const CustomizedDot = ({
+  largerDot,
+  cx,
+  cy,
+  value,
+}: {
+  largerDot: boolean;
+  cx?: number;
+  cy?: number;
+  value?: number;
+}) => {
+  const radius = largerDot ? 5 : 3;
+  if (value && value < 300) {
+    return <circle cx={cx} cy={cy} r={radius} fill="red" />;
+  }
+
+  return <circle cx={cx} cy={cy} r={radius} fill="#008184" />;
+};
+
 export const SensorReadingsLineChart: React.FC<
   SensorReadingsLineChartProps
 > = ({ data, containerHeight = 800, date }) => {
@@ -87,7 +106,8 @@ export const SensorReadingsLineChart: React.FC<
           name="Sensor Reading"
           dataKey="sensorReading"
           stroke="#008184"
-          activeDot={{ r: 8 }}
+          dot={<CustomizedDot largerDot={false} />}
+          activeDot={<CustomizedDot largerDot />}
         />
       </LineChart>
     </ResponsiveContainer>

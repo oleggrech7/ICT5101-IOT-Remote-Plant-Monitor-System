@@ -1,7 +1,7 @@
+import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/lib/utils";
 
 const interFontSans = Inter({
   subsets: ["latin"],
@@ -22,12 +22,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
+        suppressHydrationWarning
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
           interFontSans.variable
         )}
       >
-          {children}
+        {children}
       </body>
     </html>
   );
