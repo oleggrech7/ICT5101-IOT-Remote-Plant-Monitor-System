@@ -1,10 +1,7 @@
-import { useEffect, useState } from "react";
-import {
-  LocalSensorReadingData,
-  SensorReadingData,
-} from "@/app/interfaces/common/sensorReading";
-import { GET } from "@/app/utils/api";
+import { LocalSensorReadingData } from "@/app/interfaces/common/sensorReading";
 import { SensorReadingsResponse } from "@/app/interfaces/responses/sensorReadingsResponse";
+import { GET } from "@/app/utils/api";
+import { useEffect, useState } from "react";
 import { convertDateToLocale } from "../utils/date";
 
 export function useSensor() {
@@ -14,19 +11,13 @@ export function useSensor() {
   const [latestSensorReading, setLatestSensorReading] = useState<
     LocalSensorReadingData | undefined
   >(undefined);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const getSensorReadings = async () => {
     setLoading(true);
     await GET("/api/get-sensor-readings")
       .then(async (response: Response) => {
         const { data } = (await response.json()) as SensorReadingsResponse;
-        const sortedData = data.sort(
-          (a, b) =>
-            (new Date(b.createdAt as any) as any) -
-            (new Date(a.createdAt as any) as any)
-        );
-
         const convertedData = data.map(
           (reading) =>
             ({
@@ -37,6 +28,13 @@ export function useSensor() {
             } as LocalSensorReadingData)
         );
         setSensorReadings(convertedData);
+
+        const sortedData = data.sort(
+          (a, b) =>
+            (new Date(b.createdAt as any) as any) -
+            (new Date(a.createdAt as any) as any)
+        );
+
         setLatestSensorReading(
           convertedData.find((value) => value.id === sortedData[0].id)
         );

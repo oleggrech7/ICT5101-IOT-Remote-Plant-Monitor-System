@@ -17,18 +17,11 @@ export async function POST(request: Request) {
       return errorResponse({ message: "Reading is not of type 'number'" });
     }
 
-    await prisma.testingMoistureSensor.create({
+    await prisma.moistureSensorReadings.create({
       data: {
         sensorReading: reading,
       },
     });
-
-    // FOR PRODUCTION
-    // await prisma.moistureSensorReadings.create({
-    //   data: {
-    //     sensorReading: reading,
-    //   },
-    // });
 
     return createdResponse({ message: "Reading added successfully!" });
   } catch (error) {
