@@ -18,7 +18,6 @@ HttpClient httpClient = HttpClient(wifiClient, HOST_NAME, HTTP_PORT);
 void setup() {
   // Checking for the WiFi module
   if (WiFi.status() == WL_NO_MODULE) {
-    Serial.println("Communication with WiFi module failed!");
     // No module found so don't continue with the process
     while (true)
       ;
@@ -44,14 +43,12 @@ void loop() {
     String addSensorReadingApi = "/api/add-sensor-reading";
     String contentType = "application/json";
 
-    Serial.println("Starting Request");
-
-    float sensorValue = analogRead(A0);
     String postData = "{\"reading\":";
     postData += sensorValue;
     postData += "}";
 
-    if (sensorValue < 300) {
+    // Inspiration for this value: https://github.com/passion-tech/Hello-tech/blob/master/Soil_moisture_Sensor_with_Relay___Lcd.ino
+    if (sensorValue > 625) {
       digitalWrite(13, HIGH);  // Turning on red LED indicating that the soil is dry
     }
 
