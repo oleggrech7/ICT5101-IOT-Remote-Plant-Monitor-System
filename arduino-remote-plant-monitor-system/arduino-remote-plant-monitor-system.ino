@@ -13,8 +13,6 @@ int status = WL_IDLE_STATUS;
 int HTTP_PORT = 443;
 char HOST_NAME[] = SECRET_API_BASE_URL;
 
-HttpClient httpClient = HttpClient(wifiClient, HOST_NAME, HTTP_PORT);
-
 void setup() {
   // Checking for the WiFi module
   if (WiFi.status() == WL_NO_MODULE) {
@@ -54,13 +52,20 @@ void loop() {
       digitalWrite(13, HIGH);  // Turning on red LED indicating that the soil is dry
     }
 
-    int statusCode = 0;
+    HttpClient httpClient = HttpClient(wifiClient, HOST_NAME, HTTP_PORT);
 
-    while (statusCode != 201) {
+    int statusCode = -1;
+    int retryMax = 0;
+
+    while (statusCode != 201 && retryMax < 5) {
+      httpClient.beginRequest();
       httpClient.post(addSensorReadingApi, contentType, postData);
+      httpClient.endRequest();
 
       // Reading the status code of the response
       statusCode = httpClient.responseStatusCode();
+      httpClient.responseBody();
+      retryMax ++;
     }
 
     // Blink LED to show that request has been made
