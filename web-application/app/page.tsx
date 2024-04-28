@@ -1,4 +1,5 @@
 "use client";
+import { Github } from "lucide-react";
 import { useMemo, useState } from "react";
 import { DatePicker } from "./components/DatePicker";
 import { ErrorAlert } from "./components/ErrorAlert";
@@ -6,7 +7,6 @@ import { SensorReadingsLineChart } from "./components/SensorReadingsLineChart";
 import { Spinner } from "./components/spinner";
 import { useSensor } from "./hooks/sensor";
 import { getDateTimestamps } from "./utils/date";
-import { Github } from "lucide-react";
 
 export default function Home() {
   const { sensorReadings, loading, latestSensorReading } = useSensor();
@@ -16,7 +16,7 @@ export default function Home() {
 
   const isMoistureLow = useMemo(() => {
     if (!latestSensorReading) return false;
-    return latestSensorReading.sensorReading < 300;
+    return latestSensorReading.sensorReading > 625;
   }, [latestSensorReading]);
 
   const handleIconFill = (value: boolean) => {
