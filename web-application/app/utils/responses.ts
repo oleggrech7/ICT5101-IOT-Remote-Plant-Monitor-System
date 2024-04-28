@@ -16,9 +16,9 @@ export function createdResponse(body: any) {
   });
 }
 
-export function okResponse(body: any) {
+export function okResponse(body: any, headers = {}) {
   return new Response(JSON.stringify(body), {
     status: 200,
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...headers },
   });
 }
