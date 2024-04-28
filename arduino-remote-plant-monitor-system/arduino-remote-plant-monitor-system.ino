@@ -43,6 +43,8 @@ void loop() {
     String addSensorReadingApi = "/api/add-sensor-reading";
     String contentType = "application/json";
 
+    float sensorValue = analogRead(A0);
+
     String postData = "{\"reading\":";
     postData += sensorValue;
     postData += "}";
