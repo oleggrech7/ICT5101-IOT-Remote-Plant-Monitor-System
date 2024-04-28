@@ -55,7 +55,7 @@ const CustomizedDot = ({
   value?: number;
 }) => {
   const radius = largerDot ? 5 : 3;
-  if (value && value < 300) {
+  if (value && value > 625) {
     return <circle cx={cx} cy={cy} r={radius} fill="red" />;
   }
 
