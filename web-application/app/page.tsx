@@ -37,20 +37,18 @@ export default function Home() {
         >
           oleg.grech.19@um.edu.mt
         </a>
-        <p
+        <a
           className="flex hover:underline cursor-pointer pt-2"
           onMouseOver={() => handleIconFill(true)}
           onMouseOut={() => handleIconFill(false)}
+          href="https://github.com/oleggrech7/ICT5101-IOT-Remote-Plant-Monitor-System"
+          target="_blank"
         >
           Code found on
-          <a
-            href="https://github.com/oleggrech7/ICT5101-IOT-Remote-Plant-Monitor-System"
-            target="_blank"
-            className="pl-2"
-          >
+          <p className="pl-2">
             <Github fill={fill ? "white" : "transparent"} />
-          </a>
-        </p>
+          </p>
+        </a>
       </section>
       <section className="w-full pt-4">
         {loading ? (
