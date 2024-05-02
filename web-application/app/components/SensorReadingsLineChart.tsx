@@ -63,10 +63,24 @@ const CustomizedDot = ({
   return <circle cx={cx} cy={cy} r={radius} fill="#008184" />;
 };
 
+function calculateAverageSensorReading(
+  readings: LocalSensorReadingData[]
+): number {
+  let totalSensorReading = 0;
+
+  for (const reading of readings) {
+    totalSensorReading += reading.sensorReading;
+  }
+
+  const averageSensorReading = totalSensorReading / readings.length;
+  return averageSensorReading;
+}
+
 export const SensorReadingsLineChart: React.FC<
   SensorReadingsLineChartProps
 > = ({ data, containerHeight = 800, date }) => {
   const [chartData, setChartData] = useState(data);
+  const [average, setAverage] = useState(0);
 
   useEffect(() => {
     if (date) {
@@ -82,35 +96,46 @@ export const SensorReadingsLineChart: React.FC<
 
   useEffect(() => {
     setChartData(data);
+    setAverage(calculateAverageSensorReading(data));
   }, [data]);
 
+  useEffect(() => {
+    setAverage(calculateAverageSensorReading(chartData));
+  }, [chartData]);
+
   return (
-    <ResponsiveContainer height={containerHeight}>
-      <LineChart
-        data={chartData}
-        margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5,
-        }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey={date ? "time" : "date"} />
-        <YAxis />
-        <Tooltip
-          content={<CustomTooltip active={false} payload={[]} label={""} />}
-        />
-        <Legend />
-        <Line
-          type="monotone"
-          name="Sensor Reading"
-          dataKey="sensorReading"
-          stroke="#008184"
-          dot={<CustomizedDot largerDot={false} />}
-          activeDot={<CustomizedDot largerDot />}
-        />
-      </LineChart>
-    </ResponsiveContainer>
+    <>
+      <p className="pb-4 pl-11">
+        {date ? "Daily" : "Weekly"} Average
+        {date ? ` for ${convertDateToLocale(date)}` : undefined}: {average.toFixed(2)}
+      </p>
+      <ResponsiveContainer height={containerHeight}>
+        <LineChart
+          data={chartData}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey={date ? "time" : "date"} />
+          <YAxis />
+          <Tooltip
+            content={<CustomTooltip active={false} payload={[]} label={""} />}
+          />
+          <Legend />
+          <Line
+            type="monotone"
+            name="Sensor Reading"
+            dataKey="sensorReading"
+            stroke="#008184"
+            dot={<CustomizedDot largerDot={false} />}
+            activeDot={<CustomizedDot largerDot />}
+          />
+        </LineChart>
+      </ResponsiveContainer>
+    </>
   );
 };
