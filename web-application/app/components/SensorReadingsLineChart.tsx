@@ -26,17 +26,15 @@ console.error = (...args: any) => {
 
 const CustomTooltip = ({
   active,
-  payload,
-  label,
+  payload
 }: {
   active: boolean;
   payload: Array<any>;
-  label: string;
 }) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-black p-2">
-        <p>{`Date: ${label}`}</p>
+        <p>{`Date: ${payload[0].payload.date}`}</p>
         <p>{`Time: ${payload[0].payload.time}`}</p>
         <p>{`Sensor Reading:${payload[0].value}`}</p>
       </div>
@@ -123,7 +121,7 @@ export const SensorReadingsLineChart: React.FC<
           <XAxis dataKey={date ? "time" : "date"} />
           <YAxis />
           <Tooltip
-            content={<CustomTooltip active={false} payload={[]} label={""} />}
+            content={<CustomTooltip active={false} payload={[]} />}
           />
           <Legend />
           <Line
