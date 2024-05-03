@@ -105,7 +105,7 @@ export const SensorReadingsLineChart: React.FC<
     <>
       <p className="pb-4 pl-11">
         {date ? "Daily" : "Weekly"} Average
-        {date ? ` for ${date}` : undefined}: {average.toFixed(2)}
+        {date ? ` for ${convertDateToLocale(date)}` : undefined}: {average.toFixed(2)}
       </p>
       <ResponsiveContainer height={containerHeight}>
         <LineChart
