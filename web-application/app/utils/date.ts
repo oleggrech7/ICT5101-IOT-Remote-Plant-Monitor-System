@@ -17,3 +17,4 @@ export function getDateTimestamps(data: LocalSensorReadingData[]) {
     return new Date(`${month}/${day}/${year}`);
   });
 }
+
