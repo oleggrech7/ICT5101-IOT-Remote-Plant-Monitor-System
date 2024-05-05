@@ -26,7 +26,7 @@ console.error = (...args: any) => {
 
 const CustomTooltip = ({
   active,
-  payload
+  payload,
 }: {
   active: boolean;
   payload: Array<any>;
@@ -79,16 +79,22 @@ export const SensorReadingsLineChart: React.FC<
 > = ({ data, containerHeight = 800, date }) => {
   const [chartData, setChartData] = useState(data);
   const [average, setAverage] = useState(0);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
 
   useEffect(() => {
     if (date) {
-      const localeData = convertDateToLocale(date);
+      const newDate = new Date(date);
+      newDate.setDate(date.getDate() + 1);
+      setSelectedDate(newDate);
+
+      const localeDate = convertDateToLocale(newDate);
       const filteredData = data.filter(
-        (reading) => reading.date === localeData
+        (reading) => reading.date === localeDate
       );
       setChartData(filteredData);
       return;
     }
+    setSelectedDate(undefined);
     setChartData(data);
   }, [date]);
 
@@ -105,7 +111,8 @@ export const SensorReadingsLineChart: React.FC<
     <>
       <p className="pb-4 pl-11">
         {date ? "Daily" : "Weekly"} Average
-        {date ? ` for ${convertDateToLocale(date)}` : undefined}: {average.toFixed(2)}
+        {selectedDate ? ` for ${convertDateToLocale(selectedDate)}` : undefined}
+        : {average.toFixed(2)}
       </p>
       <ResponsiveContainer height={containerHeight}>
         <LineChart
@@ -120,9 +127,7 @@ export const SensorReadingsLineChart: React.FC<
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey={date ? "time" : "date"} />
           <YAxis />
-          <Tooltip
-            content={<CustomTooltip active={false} payload={[]} />}
-          />
+          <Tooltip content={<CustomTooltip active={false} payload={[]} />} />
           <Legend />
           <Line
             type="monotone"

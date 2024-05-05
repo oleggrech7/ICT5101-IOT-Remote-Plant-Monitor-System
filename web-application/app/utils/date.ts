@@ -7,6 +7,7 @@ export function convertDateToLocale(date: string | Date): string {
       day: "2-digit",
       month: "2-digit",
       year: "numeric",
+      timeZone: "UTC",
     }
   );
 }
