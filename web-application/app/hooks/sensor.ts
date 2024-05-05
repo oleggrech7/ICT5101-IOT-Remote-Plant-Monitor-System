@@ -24,7 +24,9 @@ export function useSensor() {
               id: reading.id,
               sensorReading: reading.sensorReading,
               date: convertDateToLocale(reading.createdAt),
-              time: new Date(reading.createdAt).toLocaleTimeString(),
+              time: new Date(reading.createdAt).toLocaleTimeString("en-GB", {
+                timeZone: "UTC",
+              }),
             } as LocalSensorReadingData)
         );
         setSensorReadings(convertedData);
